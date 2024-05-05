@@ -14,12 +14,12 @@ public class KafkaProducerConfig {
     private KafkaProperties kafkaProperties;
 
     @Value("${topicos.notafiscal.request.topic}")
-    private String pagamentoRequestTopic;
+    private String notaFiscalRequestTopic;
 
 
     @Bean
-    public NewTopic pagamentoRequestTopicBuilder(){
-        return TopicBuilder.name(pagamentoRequestTopic)
+    public NewTopic notafiscalRequestTopicBuilder(){
+        return TopicBuilder.name(notaFiscalRequestTopic)
                 .partitions(1)
                 .replicas(1)
                 .build();

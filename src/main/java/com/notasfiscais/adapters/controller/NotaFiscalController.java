@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @AllArgsConstructor
 @Controller
 public class NotaFiscalController {
+
     private NotaFiscalService service;
+
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> receberNotaFiscal(@RequestBody NotaFiscal xml) {
+    public void receberNotaFiscal(@RequestBody NotaFiscal xml) {
         service.tratarXml(xml);
-        return null;
     }
 }
