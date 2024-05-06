@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class NotaFiscalDto {
+    private String idNfe;
     private String tipoPagamento;
     private String descricao;
     private String valor;
