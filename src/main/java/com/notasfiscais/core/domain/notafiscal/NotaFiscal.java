@@ -12,11 +12,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotaFiscal {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
+
+    @Column(nullable = false)
     private String idNfe;
+
+    @Column(nullable = false)
     private String tipoPagamento;
+
+    @Column(nullable = false)
     private String descricao;
+
+    @Column(nullable = false)
     private String valor;
 }

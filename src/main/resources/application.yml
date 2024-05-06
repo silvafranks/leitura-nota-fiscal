@@ -7,6 +7,12 @@ topicos:
       topic: "notafiscal.request.topic.v1"
 
 spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
   servlet:
     multipart:
       max-file-size: 50MB

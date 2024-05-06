@@ -5,10 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notasfiscais.adapters.Integration.ClienteNotaFiscalClient;
 import com.notasfiscais.core.domain.cliente.ClienteDto;
-import com.notasfiscais.core.domain.notafiscal.NotaFiscalDto;
-import com.notasfiscais.core.domain.notafiscal.NotaFiscalIntegration;
-import com.notasfiscais.core.domain.notafiscal.NotaFiscalMapper;
-import com.notasfiscais.core.domain.notafiscal.TipoPagamento;
+import com.notasfiscais.core.domain.notafiscal.*;
 import com.notasfiscais.core.domain.notafiscal.data.NotaFiscalRepository;
 import com.notasfiscais.core.exception.EntidadeNaoEncontradaException;
 import lombok.AllArgsConstructor;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
@@ -58,12 +56,12 @@ public class NotaFiscalService {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void tratarXml(NotaFiscalIntegration notaFiscal) {
 
         String chaveNFe = notaFiscal.getProtNFe().getInfProt().getChNFe();
 
         this.verificarNotaFiscal(chaveNFe);
+
         String idNfe = notaFiscal.getNFe().getInfNFe().getIdNfe();
         String valorPagamento = notaFiscal.getNFe().getInfNFe().getPag().getDetPag().getValorPagamento();
         String codigoFormaPagamento = notaFiscal.getNFe().getInfNFe().getPag().getDetPag().getFormaPagamento();
@@ -88,6 +86,7 @@ public class NotaFiscalService {
         }
 
         notaFiscalRepository.save(notaFiscalMapper.toDomain(build));
+
     }
 
     private void verificarNotaFiscal(String chaveNFe) {
