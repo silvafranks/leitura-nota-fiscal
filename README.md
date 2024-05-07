@@ -1,8 +1,8 @@
 ## Sistema de Notas Fiscais 
 O projeto **Sistema de Notas Fiscais** tem como objetivo validar notas fiscais por meio de uma API externa do governo, processá-las e 
-enviar possíveis boletos bancários para o Kafka. 
+envia possíveis boletos bancários para o Kafka. 
 
-Além disso, armazena informações das notas fiscais em um banco de dados dedicado e consultar um microserviço para obter informações 
+Além disso, armazena informações das notas fiscais em um banco de dados dedicado e consulta um microserviço para obter informações 
 complementares do cliente. 
 
 ### Tecnologias Utilizadas 
