@@ -1,6 +1,6 @@
 package com.notasfiscais.core.domain.notafiscal.data;
 
-import com.notasfiscais.core.domain.notafiscal.NotaFiscalDto;
+import com.notasfiscais.core.domain.notafiscal.dto.NotaFiscalDto;
 import com.notasfiscais.core.domain.notafiscal.NotaFiscalIntegration;
 import com.notasfiscais.core.domain.notafiscal.TipoPagamento;
 

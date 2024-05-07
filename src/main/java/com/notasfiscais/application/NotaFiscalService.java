@@ -1,13 +1,14 @@
 package com.notasfiscais.application;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notasfiscais.adapters.Integration.ClienteNotaFiscalClient;
+import com.notasfiscais.adapters.Integration.GovNfeClient;
 import com.notasfiscais.core.domain.cliente.ClienteDto;
 import com.notasfiscais.core.domain.notafiscal.*;
 import com.notasfiscais.core.domain.notafiscal.data.NotaFiscalDtoDataIntegrationFactory;
 import com.notasfiscais.core.domain.notafiscal.data.NotaFiscalRepository;
+import com.notasfiscais.core.domain.notafiscal.dto.NotaFiscalDto;
 import com.notasfiscais.core.exception.EntidadeExisteException;
 import com.notasfiscais.core.exception.EntidadeNaoEncontradaException;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
@@ -48,8 +47,13 @@ public class NotaFiscalService {
     private ClienteNotaFiscalClient clienteNotaFiscalClient;
 
     @Autowired
+    private GovNfeClient govNfeClient;
+
+    @Autowired
     private NotaFiscalMapper notaFiscalMapper;
-    private static final int TIPO_BOLETO = TipoPagamento.BOLETO_BANCARIO.getCodigo();
+    private static final String TIPO_BOLETO = TipoPagamento.BOLETO_BANCARIO.getDescricao();
+
+    private static final String TOKEN = "Bearer 06aef429-a981-3ec5-a1f8-71d38d86481e";
 
 
     public void enviarMensagem(NotaFiscalDto notaFiscalDto) {
@@ -82,9 +86,10 @@ public class NotaFiscalService {
             throw  new EntidadeExisteException(notaFiscalDto.getIdNfe(), "Nota fiscal já existe na base");
         }
 
-        TipoPagamento formaPagamento = TipoPagamento.fromCodigo(parseInt(notaFiscalDto.getTipoPagamento()));
+        String tipoPagamento = notaFiscalDto.getTipoPagamento();
 
-        if (formaPagamento.getCodigo() == TIPO_BOLETO) {
+
+        if (Objects.equals(tipoPagamento, TIPO_BOLETO)) {
             this.enviarMensagem(notaFiscalDto);
         }
 
@@ -93,7 +98,7 @@ public class NotaFiscalService {
     }
 
     private void verificarNotaFiscal(String chaveNFe) {
-        System.out.println(chaveNFe);
+            govNfeClient.verificarNfe(chaveNFe, TOKEN);
     }
 
 }

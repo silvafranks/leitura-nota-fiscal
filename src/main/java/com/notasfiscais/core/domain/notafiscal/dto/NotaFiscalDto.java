@@ -1,4 +1,4 @@
-package com.notasfiscais.core.domain.notafiscal;
+package com.notasfiscais.core.domain.notafiscal.dto;
 
 import lombok.Builder;
 import lombok.Data;
