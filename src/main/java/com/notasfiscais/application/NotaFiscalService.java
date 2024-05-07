@@ -68,27 +68,21 @@ public class NotaFiscalService {
 
         this.verificarNotaFiscal(chaveNFe);
 
+        NotaFiscalDto notaFiscalDto = NotaFiscalDtoDataIntegrationFactory.of(notaFiscal);
         String cpf = notaFiscal.getNFe().getInfNFe().getDest().getCpf();
-
         ClienteDto clienteDtoResponse = clienteNotaFiscalClient.clienteBusca(cpf);
 
         if (Objects.isNull(clienteDtoResponse)) {
             throw new EntidadeNaoEncontradaException("Cliente ainda não cadastrado");
         }
 
-        String idNfe = notaFiscal.getNFe().getInfNFe().getIdNfe();
-        String codigoFormaPagamento = notaFiscal.getNFe().getInfNFe().getPag().getDetPag().getFormaPagamento();
-        TipoPagamento formaPagamento = TipoPagamento.fromCodigo(parseInt(codigoFormaPagamento));
-
-        NotaFiscalDto notaFiscalDto = NotaFiscalDtoDataIntegrationFactory.of(notaFiscal);
-
-
-        boolean existsByNfe = notaFiscalRepository.existsByIdNfe(idNfe);
+        boolean existsByNfe = notaFiscalRepository.existsByIdNfe(notaFiscalDto.getIdNfe());
 
         if (existsByNfe){
-            throw  new EntidadeExisteException(idNfe, "Nota fiscal já existe na base");
+            throw  new EntidadeExisteException(notaFiscalDto.getIdNfe(), "Nota fiscal já existe na base");
         }
 
+        TipoPagamento formaPagamento = TipoPagamento.fromCodigo(parseInt(notaFiscalDto.getTipoPagamento()));
 
         if (formaPagamento.getCodigo() == TIPO_BOLETO) {
             this.enviarMensagem(notaFiscalDto);
